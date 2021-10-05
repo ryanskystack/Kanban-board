@@ -8,6 +8,18 @@ import { initialBoardData } from '../data/board-initial-data';
 // Import BoardColumn component
 import { BoardColumn } from './board-column';
 
+// Create styled head element properties
+const HeadEl = styled.h1`
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  margin: 6vh;
+  font:  sans-serif;
+  color: #61677C;
+  letter-spacing: -0.1px;
+  text-shadow: 3px 3px 0 #FFF;
+`
+
 // Create styled draggable board Column element properties
 const DroppableBoardEl = styled.div`
   display: flex;
@@ -137,52 +149,57 @@ export const Board: React.FC = (props) => {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId='all-columns' direction="horizontal" type="column" >
-        {(provided, snapshot) => (
-          <DroppableBoardEl
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {dataState.columnsOrder.map((columnId: string, index: number) => {
-              // Get id of the current column
-              const column = (dataState.columns as any)[columnId]
-              // Get item belonging to the current column
-              const items = column.itemsIds.map((itemId: string) => (dataState.items as any)[itemId])
-              // Render the BoardColumn component
+    <>
+      <HeadEl>
+        Kanban Board
+      </HeadEl>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId='all-columns' direction="horizontal" type="column" >
+          {(provided, snapshot) => (
+            <DroppableBoardEl
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {dataState.columnsOrder.map((columnId: string, index: number) => {
+                // Get id of the current column
+                const column = (dataState.columns as any)[columnId]
+                // Get item belonging to the current column
+                const items = column.itemsIds.map((itemId: string) => (dataState.items as any)[itemId])
+                // Render the BoardColumn component
 
-              console.log('board items:', items);
-              console.log('board column:', column);
-              console.log('board dataState:', dataState);
-              return (
-                <Draggable
-                  draggableId={columnId}
-                  index={index}
-                  key={columnId}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                    >
-                      <BoardColumn
-                        key={column.id}
-                        dataState={dataState}
-                        column={column}
-                        items={items}
-                        setDataState={setDataState}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              )
-            })
-            }
-            {provided.placeholder}
-          </DroppableBoardEl>
-        )}
-      </Droppable>
-    </DragDropContext>
+                console.log('board items:', items);
+                console.log('board column:', column);
+                console.log('board dataState:', dataState);
+                return (
+                  <Draggable
+                    draggableId={columnId}
+                    index={index}
+                    key={columnId}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                      >
+                        <BoardColumn
+                          key={column.id}
+                          dataState={dataState}
+                          column={column}
+                          items={items}
+                          setDataState={setDataState}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              })
+              }
+              {provided.placeholder}
+            </DroppableBoardEl>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </>
   )
 }

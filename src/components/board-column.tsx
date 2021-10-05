@@ -42,7 +42,7 @@ const BoardColumnHeader = styled.div`
 `
 // Create styles for BoardColumnTitle element
 const BoardColumnTitle = styled.h2`
-  font: 16px sans-serif;
+  font: 24px sans-serif;
   color: #61677C;
   letter-spacing: -0.2px;
   text-shadow: 1px 1px 0 #FFF;
