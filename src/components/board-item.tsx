@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-// Import BoardItem component
 import { Button } from './button';
+import device from '../data/breakpoint';
 
 // Define types for board item element properties
 type BoardItemProps = {
@@ -19,7 +19,6 @@ type BoardItemProps = {
   // deleteState: any,
   // setDeleteState: any
 }
-
 // Define types for board item element style properties
 // This is necessary for TypeScript to accept the 'isDragging' prop.
 type BoardItemStylesProps = {
@@ -28,24 +27,22 @@ type BoardItemStylesProps = {
 
 // Create style for board item element
 const BoardItemEl = styled.div<BoardItemStylesProps>`
-
+  display:flex;
   background-color: ${(props) => props.isDragging ? '#d3e4ee' : '#ecf0f3'};
   border-radius: 4px;
   box-shadow: 9px 9px 15px #d1d9e6, -9px -9px 15px #fff;
   margin-bottom:12px;
   font-family: 'Montserrat', sans-serif;
   letter-spacing: -0.2px;
-  font-size: 18px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  padding-left: 10px;
+  padding:3px;
+  margin:6px;
   background-color: #EBECF0;
   text-shadow: 1px 1px 0 #FFF;
   color: #61677C;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
   cursor: move;
-  
+  line-height:3vh;  
 
   &:hover {
     box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
@@ -53,40 +50,125 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
   }
 
   & + & {
-    margin-top: 4px;
+    margin-top: 8px;
+  }
+  @media ${device.galaxyFold} { 
+    margin-block-start: 1px;
+    margin-block-end: 1px;
+    max-width: 60px;
+    font-size: 4.5vw;
+  }
+
+  @media ${device.iphone5se} { 
+    margin-block-start: 1px;
+    margin-block-end: 1px;
+    max-width: 76px;
+    font-size: 4vw;
+  }
+  
+  @media ${device.iphone678} { 
+    margin-block-start: 2px;
+    margin-block-end: 2px;
+    max-width: 90px;
+    font-size: 4vw;
+  }
+  @media ${device.iphone678plus} { 
+    max-width: 120px;
+    font-size: 3.5vw;
+    margin:2px;
+  }
+  @media ${device.surfaceDuo} { 
+    max-width: 150px;
+    font-size: 2.5vw;
+    margin:3px;
+    padding:8px;
+  }
+  
+  @media ${device.ipad} { 
+    max-width: 200px;
+    font-size: 2vw;
+    margin:2vh;
+    padding:4vh;
+  }
+  @media ${device.laptop} { 
+    max-width: 27vw;
+    font-size: 4vh;
+    margin:3vh;
+    padding:3vh;
   }
 `
 
 // Create style for input item element
 const InputWrapperEl = styled.div`
  display:flex;
+ z-index: 1;
  justify-content: space-between; 
  align-items: center;
-
  box-sizing: border-box;
  transition: all 0.2s ease-in-out;
  height:21px;
+ max-width:400px;
+ padding:2px; 
 `
 
 // Create style for input item element
 const InputEl = styled.input`
-
+  
   margin-right: 4px;
   background: #d0f6ec;
   border-width:0; 
   box-shadow:  inset 2px 2px 5px #87a099, inset -5px -5px 10px #ffffff;
   color: #61677C;
-  font-weight: bold;  
-  font-weight: 400;
-  width: 190px;
-  height:28px  
+  font-weight: bold; 
 
   &:focus {
     outline: none;
     color: #61677C;
     font-weight: bold;  
-    font-weight: 400;
     box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+  }
+  @media ${device.galaxyFold} { 
+    font-size: 12px;
+    width: 100px;
+    height:30px;  
+    padding:2px;
+  }
+
+  @media ${device.iphone5se} { 
+    font-size: 12px;
+    width: 110px;
+    height:20px;  
+    padding:3px;
+    margin:8px;
+  }
+  
+  @media ${device.iphone678} { 
+    font-size: 15px;
+    width: 120px;
+    height:25px;  
+    padding:3px;
+    margin:3px;
+  }
+  @media ${device.iphone678plus} { 
+    font-size:15px;
+    padding:3px;
+    margin:3px;
+    height:27px; 
+  }
+  @media ${device.surfaceDuo} { 
+    font-size:15px;
+    width:150px;
+    padding:3px;
+    margin:3px;
+    height:28px; 
+  }
+  
+  @media ${device.laptop} { 
+    width:18vw;
+    padding:6px;
+    margin:6px;
+    height:32px; 
+    font-size:1.6vw;
   }
 `
 
@@ -208,11 +290,11 @@ export const BoardItem = (props: BoardItemProps) => {
               <Button variant='confirm' key={`confirm${item.id}`} id={`confirm${column.id}${item.id}`} onClick={confirmHandler} />
               <Button variant='delete' key={`delete${item.id}`} id={`delete${column.id}${item.id}`} onClick={deleteHandler} />
             </InputWrapperEl>
-
             )
             :
             <div id={item.id} key={item.id} onClick={editHandler}>
-              {item.content===''?"\u00A0":item.content}
+              {/* {item.content===''?"\u00A0":item.content} */}
+              {item.content===''?"✐":item.content}
             {/* if in JS, put &nbsp  */}
             </div>
         }
