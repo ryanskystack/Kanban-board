@@ -12,7 +12,6 @@ type BoardColumnProps = {
   dataState: any,
   items: any,
   setDataState: any,
-
 }
 
 // Define types for board column content style properties
@@ -71,7 +70,6 @@ const BoardColumnWrapper = styled.div`
     margin-bottom:3vh;
     line-height:20vh;
   }
-
 `
 // Create styles for BoardColumnHeader element
 const BoardColumnHeader = styled.div`
@@ -132,7 +130,6 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
   display:flex;
   flex-direction: column;
 `
-
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = (props) => {
   //refactor the props
@@ -182,6 +179,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = (props) => {
     }
     console.log('add item newDataState:', newDataState)
     setDataState(newDataState);
+    localStorage.setItem('dataState', JSON.stringify({ dataState: newDataState }));
   }
 
   // Create handler for uplift the edited item state to its parent component

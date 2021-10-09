@@ -84,10 +84,18 @@ export const Board: React.FC = (props) => {
     if (Object.prototype.hasOwnProperty.call(initialItems, value)) {
       Object.assign(value, { isActive: false })
     }
-  }
+  };
 
-  const [dataState, setDataState] = useState<any>(initialDataState);
-
+  if (!localStorage.dataState) {
+    localStorage.setItem('dataState', JSON.stringify({ dataState: initialDataState }));
+  };
+  console.log("localStorage:", localStorage);
+  let jsonLocalData: any = localStorage.getItem('dataState');
+  console.log("jsonLocalData:", jsonLocalData);
+  const jsonParsedDataState: any = JSON.parse(jsonLocalData);
+  console.log("jsonParsedDataState:", jsonParsedDataState);
+  const [dataState, setDataState] = useState<any>(jsonParsedDataState.dataState);
+  console.log("dataState:", dataState);
   // Handle drag & drop
   const onDragEnd = (result: any) => {
     const { source, destination, draggableId, type } = result
@@ -115,6 +123,7 @@ export const Board: React.FC = (props) => {
         columnsOrder: newColumnsOrder
       };
       setDataState(newDataState);
+      localStorage.setItem('dataState', JSON.stringify({ dataState: newDataState }));
       return
     }
 
@@ -152,6 +161,7 @@ export const Board: React.FC = (props) => {
 
       // Update the board state with new data
       setDataState(newState);
+      localStorage.setItem('dataState', JSON.stringify({ dataState: newState }));
 
     } else {
       // Moving items from one list to another
@@ -189,7 +199,8 @@ export const Board: React.FC = (props) => {
         }
       }
       // Update the board state with new data
-      setDataState(newState)
+      setDataState(newState);
+      localStorage.setItem('dataState', JSON.stringify({ dataState: newState }));
     }
   }
 

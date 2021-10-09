@@ -203,6 +203,7 @@ export const BoardItem = (props: BoardItemProps) => {
     newItem['isActive'] = false;
     console.log('confirm dataState:', newDataState);
     setDataState(newDataState);
+    localStorage.setItem('dataState', JSON.stringify({ dataState: newDataState }));
   }
 
   // Create handler for deleting the item 
@@ -244,8 +245,7 @@ export const BoardItem = (props: BoardItemProps) => {
     console.log('new newDataState:', newDataState);
 
     setDataState(newDataState);
-
-
+    localStorage.setItem('dataState', JSON.stringify({ dataState: newDataState }));
   }
 
 
